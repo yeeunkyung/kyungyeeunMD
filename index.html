@@ -137,7 +137,7 @@ nav a:hover{color:var(--ink);}
 
 .pi-nm{font-size:14.5px;font-weight:700;letter-spacing:-.01em;transition:color .2s;}
 .pi-kw{font-size:12px;color:var(--muted);margin-top:2px;}
-.pi-arr{font-size:11px;color:var(--muted);transition:transform .3s;}
+.pi-arr{font-size:33px;color:var(--muted);transition:transform .3s;line-height:1;}
 .pi.open .pi-arr{transform:rotate(180deg);}
 
 .pi-body{max-height:0;overflow:hidden;transition:max-height .4s ease,padding .3s;padding-left:38px;}
@@ -263,6 +263,44 @@ footer{max-width:1120px;margin:0 auto;padding:26px 48px;display:flex;justify-con
 .reveal{opacity:0;transform:translateY(16px);transition:opacity .5s ease,transform .5s ease;}
 .reveal.visible{opacity:1;transform:none;}
 
+/* ── LIGHTBOX ── */
+.zoom-btn{
+  position:absolute;bottom:5px;right:5px;z-index:10;
+  width:24px;height:24px;border-radius:6px;
+  background:rgba(0,0,0,.55);border:none;cursor:pointer;
+  color:#fff;font-size:13px;display:none;
+  align-items:center;justify-content:center;
+  transition:background .2s;
+}
+.zoom-btn:hover{background:rgba(0,0,0,.8);}
+.pi-img-slot.has-img .zoom-btn,
+.st-img-slot.has-img .zoom-btn{display:flex;}
+
+#lightbox{
+  display:none;position:fixed;inset:0;z-index:9000;
+  background:rgba(0,0,0,.82);
+  align-items:center;justify-content:center;
+  cursor:zoom-out;
+}
+#lightbox.open{display:flex;}
+#lightbox img{
+  max-width:90vw;max-height:88vh;
+  border-radius:12px;
+  box-shadow:0 24px 80px rgba(0,0,0,.6);
+  cursor:default;
+  animation:lbIn .2s ease;
+}
+@keyframes lbIn{from{opacity:0;transform:scale(.93)}to{opacity:1;transform:scale(1)}}
+#lb-close{
+  position:fixed;top:18px;right:22px;
+  background:rgba(255,255,255,.15);border:none;
+  color:#fff;font-size:22px;cursor:pointer;
+  width:38px;height:38px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  transition:background .2s;
+}
+#lb-close:hover{background:rgba(255,255,255,.3);}
+
 /* ── RESPONSIVE ── */
 @media(max-width:840px){
   nav{padding:0 16px;}
@@ -277,6 +315,12 @@ footer{max-width:1120px;margin:0 auto;padding:26px 48px;display:flex;justify-con
 </style>
 </head>
 <body>
+
+<!-- LIGHTBOX -->
+<div id="lightbox" onclick="closeLb()">
+  <button id="lb-close" onclick="closeLb()">✕</button>
+  <img id="lb-img" src="" alt="" onclick="event.stopPropagation()">
+</div>
 
 <!-- NAV -->
 <nav>
@@ -930,6 +974,17 @@ footer{max-width:1120px;margin:0 auto;padding:26px 48px;display:flex;justify-con
 </div>
 
 <script>
+function openLb(src){
+  document.getElementById('lb-img').src = src;
+  document.getElementById('lightbox').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeLb(){
+  document.getElementById('lightbox').classList.remove('open');
+  document.body.style.overflow = '';
+}
+document.addEventListener('keydown', e => { if(e.key === 'Escape') closeLb(); });
+
 function tog(hd){
   const item=hd.parentElement;
   const was=item.classList.contains('open');
@@ -962,6 +1017,15 @@ function setSlotImg(slot, src){
   if(!img){ img = document.createElement('img'); slot.appendChild(img); }
   img.src = src;
   slot.classList.add('has-img');
+  // zoom 버튼 없으면 추가
+  if(!slot.querySelector('.zoom-btn')){
+    const zb = document.createElement('button');
+    zb.className = 'zoom-btn';
+    zb.title = '확대 보기';
+    zb.innerHTML = '🔍';
+    zb.addEventListener('click', e => { e.stopPropagation(); openLb(img.src); });
+    slot.appendChild(zb);
+  }
 }
 
 function delImg(e, btn){

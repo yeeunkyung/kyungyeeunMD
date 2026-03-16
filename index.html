@@ -1,0 +1,994 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>경예은 — MD Portfolio</title>
+<link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" rel="stylesheet">
+<style>
+:root {
+  --bg: #F8F7F4;
+  --white: #FFFFFF;
+  --ink: #18181B;
+  --ink2: #3F3F46;
+  --muted: #71717A;
+  --border: #E4E4E7;
+  --accent: #1E40AF;
+  --accent-mid: #3B82F6;
+  --accent-soft: #EFF6FF;
+  --tag-bg: #F4F4F5;
+  --star-bg: #FFFBEB;
+  --star-fg: #B45309;
+  --green: #065F46;
+  --green-bg: #ECFDF5;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{
+  font-family:'Pretendard',-apple-system,BlinkMacSystemFont,sans-serif;
+  background:var(--bg);color:var(--ink);font-size:15px;line-height:1.65;
+  -webkit-font-smoothing:antialiased;
+}
+
+/* ── NAV ── */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:300;
+  height:52px;background:rgba(248,247,244,.94);
+  backdrop-filter:blur(18px);border-bottom:1px solid var(--border);
+  display:flex;align-items:center;padding:0 48px;gap:24px;
+}
+.nav-logo{font-size:14px;font-weight:700;color:var(--ink);margin-right:auto;letter-spacing:-.02em;}
+nav a{font-size:13px;color:var(--muted);text-decoration:none;transition:color .2s;}
+nav a:hover{color:var(--ink);}
+
+/* ── HERO ── */
+.hero{
+  min-height:100vh;padding:104px 48px 72px;
+  display:grid;grid-template-columns:1fr 360px;gap:64px;
+  align-items:center;max-width:1120px;margin:0 auto;
+}
+.h-eyebrow{
+  font-size:11px;font-weight:600;color:var(--accent);
+  letter-spacing:.1em;text-transform:uppercase;margin-bottom:16px;
+  opacity:0;animation:up .5s ease forwards .1s;
+}
+.h-name{
+  font-size:clamp(36px,5vw,58px);font-weight:800;line-height:1.08;
+  letter-spacing:-.04em;color:var(--ink);
+  opacity:0;animation:up .5s ease forwards .2s;
+}
+.h-name .blue{color:var(--accent);}
+.h-sub{
+  font-size:15.5px;color:var(--muted);margin-top:18px;line-height:1.8;
+  opacity:0;animation:up .5s ease forwards .3s;
+}
+.h-sub strong{color:var(--ink);font-weight:600;}
+.h-stats{
+  display:flex;gap:32px;margin-top:32px;
+  padding-top:32px;border-top:1px solid var(--border);
+  opacity:0;animation:up .5s ease forwards .4s;flex-wrap:wrap;
+}
+.stn{font-size:26px;font-weight:800;letter-spacing:-.03em;line-height:1;}
+.stl{font-size:12px;color:var(--muted);margin-top:3px;}
+
+/* ── SIDE ── */
+.hero-side{opacity:0;animation:up .5s ease forwards .5s;}
+.sbox{
+  background:var(--white);border:1px solid var(--border);
+  border-radius:12px;padding:20px 20px 16px;margin-bottom:12px;
+}
+.sbox-ttl{
+  font-size:10px;font-weight:700;color:var(--muted);
+  letter-spacing:.12em;text-transform:uppercase;margin-bottom:14px;
+}
+.sk-row{display:flex;align-items:center;gap:10px;margin-bottom:8px;}
+.sk-nm{font-size:12.5px;font-weight:500;width:60px;flex-shrink:0;}
+.bar-wrap{flex:1;height:3px;background:var(--border);border-radius:2px;overflow:hidden;}
+.bar-fill{
+  height:100%;border-radius:2px;background:var(--accent-mid);
+  transform:scaleX(0);transform-origin:left;
+  transition:transform 0s;
+}
+.bar-fill.go{transition:transform .85s cubic-bezier(.4,0,.2,1);}
+.sk-pct{font-size:11px;color:var(--muted);width:26px;text-align:right;}
+.bdg-wrap{display:flex;flex-wrap:wrap;gap:5px;}
+.bdg{font-size:11px;font-weight:500;padding:3px 9px;border-radius:20px;background:var(--tag-bg);color:var(--ink2);}
+.edu-tx{font-size:13px;color:var(--ink2);line-height:1.7;}
+.edu-sm{font-size:12px;color:var(--muted);}
+
+/* ── SECTION WRAPPER ── */
+.wrap{max-width:1120px;margin:0 auto;padding:72px 48px;}
+.sec-hd{display:flex;align-items:center;gap:12px;margin-bottom:32px;}
+.sec-num{font-size:10px;font-weight:700;color:var(--accent);letter-spacing:.12em;text-transform:uppercase;}
+.sec-ttl{font-size:20px;font-weight:800;letter-spacing:-.03em;}
+.sec-line{flex:1;height:1px;background:var(--border);}
+.sec-sub{font-size:12.5px;color:var(--muted);margin:-20px 0 28px;}
+
+/* ── ABOUT ── */
+.ab-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+.ab-card{
+  background:var(--white);border:1px solid var(--border);
+  border-radius:12px;padding:22px;
+  transition:box-shadow .2s,transform .2s;
+}
+.ab-card:hover{box-shadow:0 6px 24px rgba(0,0,0,.07);transform:translateY(-2px);}
+.ab-card h4{font-size:13.5px;font-weight:700;margin-bottom:8px;letter-spacing:-.01em;}
+.ab-card p{font-size:13px;color:var(--muted);line-height:1.75;}
+
+/* ── PROJECTS ── */
+.proj-bg{background:var(--white);}
+.proj-list{}
+.pi{border-bottom:1px solid var(--border);}
+.pi:first-child{border-top:1px solid var(--border);}
+
+.pi-hd{
+  display:grid;grid-template-columns:24px 1fr 18px;
+  align-items:center;gap:14px;padding:18px 0;cursor:pointer;
+}
+.pi-hd:hover .pi-nm{color:var(--accent);}
+
+.pi-ic{
+  width:22px;height:22px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  font-size:9px;font-weight:700;flex-shrink:0;
+}
+.pi-ic.s{background:var(--star-bg);color:var(--star-fg);}
+.pi-ic.p{background:var(--tag-bg);color:var(--muted);}
+
+.pi-nm{font-size:14.5px;font-weight:700;letter-spacing:-.01em;transition:color .2s;}
+.pi-kw{font-size:12px;color:var(--muted);margin-top:2px;}
+.pi-arr{font-size:11px;color:var(--muted);transition:transform .3s;}
+.pi.open .pi-arr{transform:rotate(180deg);}
+
+.pi-body{max-height:0;overflow:hidden;transition:max-height .4s ease,padding .3s;padding-left:38px;}
+.pi.open .pi-body{max-height:1200px;padding-bottom:24px;}
+
+.pi-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;padding-top:6px;}
+.dl{font-size:10px;font-weight:700;color:var(--accent);letter-spacing:.1em;text-transform:uppercase;margin-bottom:7px;}
+.dt{font-size:13px;color:var(--ink2);line-height:1.75;}
+.dt ul{padding-left:1.2em;margin-top:4px;}
+.dt li{margin-bottom:3px;}
+.ptags{display:flex;flex-wrap:wrap;gap:5px;margin-top:10px;}
+.ptag{font-size:11px;font-weight:600;padding:3px 9px;border-radius:20px;background:var(--accent-soft);color:var(--accent);}
+
+/* impact numbers */
+.impact-box{
+  background:var(--accent-soft);border-radius:8px;
+  padding:14px 16px;margin-top:2px;
+}
+.imp-row{display:flex;align-items:flex-start;gap:8px;margin-bottom:6px;font-size:13px;color:var(--ink2);line-height:1.6;}
+.imp-row:last-child{margin-bottom:0;}
+.imp-dot{
+  width:16px;height:16px;border-radius:50%;background:var(--accent);
+  color:#fff;font-size:9px;font-weight:700;flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;margin-top:2px;
+}
+
+/* ── STUDY ── */
+.st-list{display:flex;flex-direction:column;gap:12px;}
+.st-card{
+  background:var(--white);border:1px solid var(--border);
+  border-radius:12px;padding:24px 26px;
+  display:grid;grid-template-columns:52px 1fr;gap:20px;align-items:start;
+  transition:box-shadow .2s,transform .2s;
+}
+.st-card:hover{box-shadow:0 6px 24px rgba(0,0,0,.07);transform:translateY(-2px);}
+.st-ic{
+  width:48px;height:48px;border-radius:10px;
+  background:var(--accent-soft);display:flex;align-items:center;justify-content:center;
+  font-size:14px;font-weight:800;color:var(--accent);letter-spacing:-.02em;
+}
+.st-ttl{font-size:15px;font-weight:800;letter-spacing:-.02em;margin-bottom:2px;}
+.st-pd{font-size:12px;color:var(--muted);margin-bottom:12px;}
+.st-desc{font-size:13px;color:var(--ink2);line-height:1.75;margin-bottom:12px;}
+.st-rs{display:flex;flex-direction:column;gap:5px;}
+.st-r{display:flex;align-items:flex-start;gap:8px;font-size:13px;color:var(--ink2);line-height:1.6;}
+.st-d{width:4px;height:4px;border-radius:50%;background:var(--accent);margin-top:8px;flex-shrink:0;}
+
+/* ── PROJECT IMAGE SLOTS ── */
+.pi-imgs{
+  grid-column: 1 / -1;
+  margin-top:4px;
+}
+.pi-imgs-label{
+  font-size:10px;font-weight:700;color:var(--accent);
+  letter-spacing:.1em;text-transform:uppercase;margin-bottom:10px;
+}
+.pi-img-row{
+  display:flex;gap:10px;flex-wrap:wrap;
+}
+.pi-img-slot{
+  position:relative;
+  width:200px;height:130px;border-radius:8px;
+  border:2px dashed var(--border);
+  overflow:hidden;background:var(--bg);
+  display:flex;flex-direction:column;
+  align-items:center;justify-content:center;
+  cursor:pointer;transition:border-color .2s,background .2s;
+  flex-shrink:0;
+}
+.pi-img-slot:hover{border-color:var(--accent-mid);background:var(--accent-soft);}
+.pi-img-slot img{
+  width:100%;height:100%;object-fit:cover;
+  position:absolute;inset:0;border-radius:6px;
+}
+.pi-img-slot .slot-hint{
+  font-size:11px;color:var(--muted);text-align:center;
+  padding:8px;line-height:1.5;z-index:1;
+  pointer-events:none;
+}
+.pi-img-slot .slot-hint span{
+  display:block;font-size:18px;margin-bottom:4px;
+}
+.pi-img-slot input[type=file]{
+  position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%;
+}
+.pi-img-slot.has-img .slot-hint{display:none;}
+.pi-img-slot .del-btn{
+  position:absolute;top:5px;right:5px;z-index:10;
+  width:20px;height:20px;border-radius:50%;
+  background:rgba(0,0,0,.55);border:none;cursor:pointer;
+  color:#fff;font-size:11px;display:none;
+  align-items:center;justify-content:center;
+}
+.pi-img-slot.has-img .del-btn{display:flex;}
+
+/* STUDY image */
+.st-imgs{margin-top:14px;}
+.st-imgs-label{font-size:10px;font-weight:700;color:var(--accent);letter-spacing:.1em;text-transform:uppercase;margin-bottom:8px;}
+.st-img-row{display:flex;gap:10px;flex-wrap:wrap;}
+.st-img-slot{
+  position:relative;width:220px;height:140px;border-radius:8px;
+  border:2px dashed var(--border);overflow:hidden;background:var(--bg);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  cursor:pointer;transition:border-color .2s,background .2s;flex-shrink:0;
+}
+.st-img-slot:hover{border-color:var(--accent-mid);background:var(--accent-soft);}
+.st-img-slot img{width:100%;height:100%;object-fit:cover;position:absolute;inset:0;border-radius:6px;}
+.st-img-slot .slot-hint{font-size:11px;color:var(--muted);text-align:center;padding:8px;line-height:1.5;z-index:1;pointer-events:none;}
+.st-img-slot .slot-hint span{display:block;font-size:18px;margin-bottom:4px;}
+.st-img-slot input[type=file]{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%;}
+.st-img-slot.has-img .slot-hint{display:none;}
+.st-img-slot .del-btn{position:absolute;top:5px;right:5px;z-index:10;width:20px;height:20px;border-radius:50%;background:rgba(0,0,0,.55);border:none;cursor:pointer;color:#fff;font-size:11px;display:none;align-items:center;justify-content:center;}
+.st-img-slot.has-img .del-btn{display:flex;}
+
+/* ── FOOTER ── */
+.ft-wrap{border-top:1px solid var(--border);background:var(--white);}
+footer{max-width:1120px;margin:0 auto;padding:26px 48px;display:flex;justify-content:space-between;align-items:center;}
+.ft-nm{font-size:14px;font-weight:700;}
+.ft-sb{font-size:12.5px;color:var(--muted);}
+
+/* ── ANIMATION ── */
+@keyframes up{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+.reveal{opacity:0;transform:translateY(16px);transition:opacity .5s ease,transform .5s ease;}
+.reveal.visible{opacity:1;transform:none;}
+
+/* ── RESPONSIVE ── */
+@media(max-width:840px){
+  nav{padding:0 16px;}
+  .hero{grid-template-columns:1fr;padding:88px 16px 48px;gap:36px;}
+  .hero-side{border-top:1px solid var(--border);padding-top:20px;}
+  .wrap{padding:52px 16px;}
+  .ab-grid{grid-template-columns:1fr;}
+  .pi-grid{grid-template-columns:1fr;}
+  .st-card{grid-template-columns:1fr;}
+  footer{flex-direction:column;gap:6px;text-align:center;padding:20px 16px;}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <span class="nav-logo">경예은 · MD Portfolio</span>
+  <a href="#about">About</a>
+  <a href="#projects">Projects</a>
+  <a href="#extra">Extra</a>
+  <a href="#study">Study</a>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div>
+    <p class="h-eyebrow">MD Portfolio · 2026</p>
+    <h1 class="h-name">브랜드를<br>숫자로<br><span class="blue">증명합니다.</span></h1>
+    <p class="h-sub">브랜드 런칭부터 매출 최적화까지<br>스타트업 비즈니스 A to Z를 리딩한<br><strong>5년차 MD, 경예은</strong>입니다.</p>
+    <div class="h-stats">
+      <div><div class="stn">5+</div><div class="stl">MD 경력</div></div>
+      <div><div class="stn">3.5억</div><div class="stl">와디즈 누적 매출</div></div>
+      <div><div class="stn">8%→80%</div><div class="stl">자사몰 매출 비중</div></div>
+      <div><div class="stn">60%+</div><div class="stl">마진 구조 확보</div></div>
+    </div>
+  </div>
+
+  <div class="hero-side" id="heroSide">
+    <div class="sbox">
+      <div class="sbox-ttl">Tools &amp; Skills</div>
+      <div class="sk-row"><span class="sk-nm">Excel</span><div class="bar-wrap"><div class="bar-fill" data-w=".9"></div></div><span class="sk-pct">90%</span></div>
+      <div class="sk-row"><span class="sk-nm">Notion</span><div class="bar-wrap"><div class="bar-fill" data-w=".8"></div></div><span class="sk-pct">80%</span></div>
+      <div class="sk-row"><span class="sk-nm">Tableau</span><div class="bar-wrap"><div class="bar-fill" data-w=".75"></div></div><span class="sk-pct">75%</span></div>
+      <div class="sk-row"><span class="sk-nm">GA4</span><div class="bar-wrap"><div class="bar-fill" data-w=".6"></div></div><span class="sk-pct">60%</span></div>
+      <div class="sk-row"><span class="sk-nm">SQL</span><div class="bar-wrap"><div class="bar-fill" data-w=".4"></div></div><span class="sk-pct">40%</span></div>
+      <div class="sk-row"><span class="sk-nm">Python</span><div class="bar-wrap"><div class="bar-fill" data-w=".3"></div></div><span class="sk-pct">30%</span></div>
+    </div>
+    <div class="sbox">
+      <div class="sbox-ttl">MD 역량</div>
+      <div class="bdg-wrap">
+        <span class="bdg">상품 기획</span><span class="bdg">글로벌 소싱</span><span class="bdg">SCM</span><span class="bdg">퍼널 분석</span><span class="bdg">CRM</span><span class="bdg">VOC 분석</span><span class="bdg">이커머스 운영</span><span class="bdg">캠페인 기획</span><span class="bdg">수요예측</span><span class="bdg">원가 관리</span><span class="bdg">고객 세그먼테이션</span><span class="bdg">와디즈 펀딩</span>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ABOUT -->
+<div class="wrap" id="about">
+  <div class="sec-hd reveal"><span class="sec-num">About</span><h2 class="sec-ttl">어떤 MD인가요</h2><div class="sec-line"></div></div>
+  <div class="ab-grid">
+    <div class="ab-card reveal"><h4>📈 브랜드 매출 구조를 직접 만들었습니다</h4><p>월 200만 원 수준의 초기 브랜드를 맡아 고객 이탈·결제 패턴을 데이터 중심으로 분석했습니다. 아임웹 기반 구매 퍼널을 설계하고 1,300건 이상의 고객 피드백을 반영한 결과, 자사몰 매출 비중을 8% → 80%까지 끌어올렸습니다.</p></div>
+    <div class="ab-card reveal"><h4>⚙️ 상품 구조와 원가를 끝까지 관리했습니다</h4><p>15개 시계 컬렉션을 운영하며 무브먼트, 다이얼, 밴드 등 주요 부품을 해외에서 직접 소싱했습니다. 직접 소싱 및 물류 최적화로 60% 이상의 마진 구조를 확보했습니다.</p></div>
+    <div class="ab-card reveal"><h4>🎯 국내 최초 커스터마이징 시계 브랜드를 만들었습니다</h4><p>참고할 선례 없는 환경에서 홍콩·일본 출장을 통해 글로벌 트렌드를 조사하고, 고객이 케이스·핸즈·밴드를 직접 선택하는 커스터마이징 시스템을 국내 최초로 기획·구축했습니다.</p></div>
+    <div class="ab-card reveal"><h4>📚 매일 아침 2시간, '공부하는 MD'입니다</h4><p>사수 없는 스타트업 환경에서 직무 공부를 꾸준히 이어왔습니다. Tableau로 상품 성과를 시각화하고, SQL·Python으로 데이터 분석 역량을 키워 데이터 기반 의사결정을 실천합니다.</p></div>
+  </div>
+</div>
+
+<!-- PROJECTS -->
+<div class="proj-bg" id="projects">
+<div class="wrap">
+  <div class="sec-hd reveal"><span class="sec-num">Projects</span><h2 class="sec-ttl">MD 프로젝트</h2><div class="sec-line"></div></div>
+  <p class="sec-sub reveal">(주)가디우스 · 커스벤 시계 브랜드 · 2019.06 — 2025.03 &nbsp;|&nbsp; ★ 핵심 프로젝트</p>
+  <div class="proj-list reveal">
+
+    <!-- P1: 상품 기획 및 개발 -->
+    <div class="pi">
+      <div class="pi-hd" onclick="tog(this)">
+        <div class="pi-ic s">★</div>
+        <div><div class="pi-nm">상품 기획 및 개발</div><div class="pi-kw">커스터마이징 시계 포지셔닝 기획 · 경쟁사 분석 · 15개 컬렉션 구축</div></div>
+        <span class="pi-arr">▾</span>
+      </div>
+      <div class="pi-body">
+        <div class="pi-grid">
+          <div>
+            <div class="dl">문제 정의</div>
+            <div class="dt">
+              <ul>
+                <li>기성품 중심 시장 구조로 개인화된 취향 반영 불가</li>
+                <li>미들 레인지(30~60만 원대) 독보적 브랜드 부재</li>
+                <li>국내에 참고할 커스터마이징 비즈니스 모델 없음</li>
+              </ul>
+            </div>
+          </div>
+          <div>
+            <div class="dl">실행 내용</div>
+            <div class="dt">
+              <ul>
+                <li>홍콩 시계 박람회·일본 출장으로 글로벌 트렌드 조사</li>
+                <li>국내 최초 커스터마이징 시스템 기획 — 케이스·핸즈·밴드 고객 직접 선택</li>
+                <li>30~60만 원대 경쟁사 전수 조사, 차별화 포인트 도출</li>
+                <li>자체 디자인 참여 → 샘플 검수 → 런칭까지 전 과정 주도</li>
+              </ul>
+            </div>
+          </div>
+          <div>
+            <div class="dl">성과</div>
+            <div class="impact-box">
+              <div class="imp-row"><div class="imp-dot">✓</div>국내 최초 커스터마이징 시계 브랜드 포지셔닝 확보 및 런칭 성공</div>
+              <div class="imp-row"><div class="imp-dot">✓</div>CUSVEN만의 독보적인 15개 컬렉션 라인업 구축</div>
+              <div class="imp-row"><div class="imp-dot">✓</div>상품 기획 A to Z 전문성 내재화</div>
+            </div>
+          </div>
+          <div>
+            <div class="dl">사용 도구</div>
+            <div class="ptags"><span class="ptag">경쟁사 분석</span><span class="ptag">포지셔닝 맵</span><span class="ptag">글로벌 트렌드 조사</span><span class="ptag">샘플 검수</span><span class="ptag">Excel</span></div>
+          </div>
+          <div class="pi-imgs">
+            <div class="pi-imgs-label">이미지</div>
+            <div class="pi-img-row">
+              <div class="pi-img-slot" id="slot-p1-1"><div class="slot-hint"><span>📷</span>시계 컬렉션 제품 사진</div><input type="file" accept="image/*" onchange="loadImg(this)"><button class="del-btn" onclick="delImg(event,this)">✕</button></div>
+              <div class="pi-img-slot" id="slot-p1-2"><div class="slot-hint"><span>📷</span>경쟁사 분석 자료</div><input type="file" accept="image/*" onchange="loadImg(this)"><button class="del-btn" onclick="delImg(event,this)">✕</button></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- P2: 글로벌 SCM -->
+    <div class="pi">
+      <div class="pi-hd" onclick="tog(this)">
+        <div class="pi-ic s">★</div>
+        <div><div class="pi-nm">글로벌 SCM 및 수익 최적화</div><div class="pi-kw">선발주 전략 · 직접 소싱 · 물류 포트폴리오 · 품질 관리</div></div>
+        <span class="pi-arr">▾</span>
+      </div>
+      <div class="pi-body">
+        <div class="pi-grid">
+          <div>
+            <div class="dl">문제 정의</div>
+            <div class="dt">
+              <ul>
+                <li>시계 부품 특성상 3개월 이상 리드타임 — 부품 하나 누락 시 완제품 판매 불가</li>
+                <li>촉박한 일정으로 48시간 품질 테스트 시간 부족 → 불량·A/S 발생</li>
+                <li>환율 변동·물량 불일치 물류사 이용으로 불필요한 비용 발생, 마진율 하락</li>
+              </ul>
+            </div>
+          </div>
+          <div>
+            <div class="dl">실행 내용</div>
+            <div class="dt">
+              <ul>
+                <li>판매 데이터 기반 수요예측 → 리드타임 고려해 최소 3개월 전 선발주</li>
+                <li>부품별 생산 기간 파악, 입고 시점 동기화 / 미확정 수량 유연 조정</li>
+                <li>중간 유통 생략, 제조사 직접 소싱으로 원가 구조 개선</li>
+                <li>DHL·FedEx·홍콩 물류사 대량·소량별 최적 배송 수단 직접 선택</li>
+                <li>물류·생산 기간 단축으로 출고 전 완제품 48시간 테스트 확보</li>
+              </ul>
+            </div>
+          </div>
+          <div>
+            <div class="dl">성과</div>
+            <div class="impact-box">
+              <div class="imp-row"><div class="imp-dot">✓</div>직접 소싱·물류 최적화로 <strong>60% 이상 마진 구조</strong> 확보</div>
+              <div class="imp-row"><div class="imp-dot">✓</div>부품 누락 0%, 품절 리스크 없는 안정적 운영 체계 구축</div>
+              <div class="imp-row"><div class="imp-dot">✓</div>충분한 검수 시간 확보로 불량률 최소화</div>
+            </div>
+          </div>
+          <div>
+            <div class="dl">사용 도구</div>
+            <div class="ptags"><span class="ptag">수요예측</span><span class="ptag">선발주 전략</span><span class="ptag">글로벌 소싱</span><span class="ptag">물류 포트폴리오</span><span class="ptag">Excel</span><span class="ptag">품질관리</span></div>
+          </div>
+          <div class="pi-imgs">
+            <div class="pi-imgs-label">이미지</div>
+            <div class="pi-img-row">
+              <div class="pi-img-slot"><div class="slot-hint"><span>📷</span>수요예측 Excel 화면</div><input type="file" accept="image/*" onchange="loadImg(this)"><button class="del-btn" onclick="delImg(event,this)">✕</button></div>
+              <div class="pi-img-slot"><div class="slot-hint"><span>📷</span>해외 부품 / 검수 사진</div><input type="file" accept="image/*" onchange="loadImg(this)"><button class="del-btn" onclick="delImg(event,this)">✕</button></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- P3: 자사몰 캠페인 -->
+    <div class="pi">
+      <div class="pi-hd" onclick="tog(this)">
+        <div class="pi-ic s">★</div>
+        <div><div class="pi-nm">자사몰 시즌별 캠페인 &amp; 매출 극대화</div><div class="pi-kw">AARRR 퍼널 개선 · 연간 캠페인 캘린더 · 자사몰 매출 비중 8% → 80%</div></div>
+        <span class="pi-arr">▾</span>
+      </div>
+      <div class="pi-body">
+        <div class="pi-grid">
+          <div>
+            <div class="dl">문제 정의</div>
+            <div class="dt">
+              <ul>
+                <li>2022년 매출의 63%가 와디즈 집중 — 자사몰 고객 데이터·CRM 운영 불가</li>
+                <li>자사몰 결제 비중 8% 수준, 브랜드 팬덤 형성 어려운 구조</li>
+                <li>월별 캠페인 체계 없이 단발성 대응으로 운영</li>
+              </ul>
+            </div>
+          </div>
+          <div>
+            <div class="dl">실행 내용</div>
+            <div class="dt">
+              <ul>
+                <li>1월~12월 시계 컬렉션별 특성 활용한 <strong>연간 캠페인 캘린더</strong> 구축</li>
+                <li>[가정의달 얼리버드][나에게 주는 상] 등 타겟별 맞춤 혜택 설계</li>
+                <li>4단계 캠페인 프로세스 — 기획/목표설정 → 셋팅 → 구매전환 → 피드백</li>
+                <li>카카오톡 최적 발송 시간 테스트 → 18시 도출, A/B 테스트 상시 운영</li>
+                <li>1초 회원가입 도입, 네이버페이 결제 추가로 구매 장벽 최소화</li>
+                <li>GA4 이탈률·장바구니·퍼널 분석으로 가설 검증</li>
+              </ul>
+            </div>
+          </div>
+          <div>
+            <div class="dl">성과</div>
+            <div class="impact-box">
+              <div class="imp-row"><div class="imp-dot">✓</div>자사몰 매출 비중 <strong>8% → 80%</strong> 전환 (2022 → 2024)</div>
+              <div class="imp-row"><div class="imp-dot">✓</div>자사몰 구축 및 AARRR 퍼널 개선 후 <strong>매출 10배 성장</strong></div>
+              <div class="imp-row"><div class="imp-dot">✓</div>자사몰 중심 CRM 데이터 확보, 독립적 마케팅 운영 가능</div>
+            </div>
+          </div>
+          <div>
+            <div class="dl">사용 도구</div>
+            <div class="ptags"><span class="ptag">GA4</span><span class="ptag">아임웹</span><span class="ptag">AARRR 퍼널</span><span class="ptag">A/B 테스트</span><span class="ptag">카카오톡</span><span class="ptag">캠페인 캘린더</span></div>
+          </div>
+          <div class="pi-imgs">
+            <div class="pi-imgs-label">이미지</div>
+            <div class="pi-img-row">
+              <div class="pi-img-slot"><div class="slot-hint"><span>📷</span>캠페인 캘린더 자료</div><input type="file" accept="image/*" onchange="loadImg(this)"><button class="del-btn" onclick="delImg(event,this)">✕</button></div>
+              <div class="pi-img-slot"><div class="slot-hint"><span>📷</span>GA4 / 매출 데이터 화면</div><input type="file" accept="image/*" onchange="loadImg(this)"><button class="del-btn" onclick="delImg(event,this)">✕</button></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- P4: 플랫폼별 매출 -->
+    <div class="pi">
+      <div class="pi-hd" onclick="tog(this)">
+        <div class="pi-ic s">★</div>
+        <div><div class="pi-nm">플랫폼별 매출 극대화</div><div class="pi-kw">와디즈 · 조선일보 · 카카오메이커스 · 무신사 · 해외 펀딩(마쿠아케·젝젝·킥스타터)</div></div>
+        <span class="pi-arr">▾</span>
+      </div>
+      <div class="pi-body">
+        <div class="pi-grid">
+          <div>
+            <div class="dl">문제 정의</div>
+            <div class="dt">
+              <ul>
+                <li>브랜드 초기 자사 웹사이트 기능 제한적, 안정적 고객 유입 어려움</li>
+                <li>와디즈 성공 후 — 얼리어댑터 고객층에만 머물 것인가, 시장을 확장할 것인가</li>
+              </ul>
+            </div>
+          </div>
+          <div>
+            <div class="dl">실행 내용</div>
+            <div class="dt">
+              <ul>
+                <li><strong>와디즈:</strong> 디자인·스토리 중심 콘텐츠, 얼리어댑터 펀딩 참여 유도</li>
+                <li><strong>조선일보:</strong> 브랜드 신뢰도·제품 가치 메시지, 40~50대 남성 타겟 판매</li>
+                <li><strong>무신사·지그재그:</strong> 10~20대 고객층 확대</li>
+                <li><strong>카카오메이커스:</strong> 중장년층 접근성 강화</li>
+                <li><strong>해외 펀딩:</strong> 일본(마쿠아케)·대만(젝젝)·미국(킥스타터) 진출</li>
+              </ul>
+            </div>
+          </div>
+          <div>
+            <div class="dl">성과</div>
+            <div class="impact-box">
+              <div class="imp-row"><div class="imp-dot">✓</div>와디즈 누적 매출 <strong>3.5억 원</strong>, 런칭 이후 최대 매출 기록</div>
+              <div class="imp-row"><div class="imp-dot">✓</div>무신사·지그재그로 10~20대, 조선일보로 중장년층 고객 동시 확보</div>
+              <div class="imp-row"><div class="imp-dot">✓</div>국내 펀딩 성공 기반으로 일본·대만·미국 해외 시장 진출</div>
+            </div>
+          </div>
+          <div>
+            <div class="dl">사용 도구</div>
+            <div class="ptags"><span class="ptag">와디즈</span><span class="ptag">조선일보</span><span class="ptag">무신사</span><span class="ptag">카카오메이커스</span><span class="ptag">마쿠아케</span><span class="ptag">Kickstarter</span></div>
+          </div>
+          <div class="pi-imgs">
+            <div class="pi-imgs-label">이미지</div>
+            <div class="pi-img-row">
+              <div class="pi-img-slot"><div class="slot-hint"><span>📷</span>와디즈 펀딩 페이지 캡처</div><input type="file" accept="image/*" onchange="loadImg(this)"><button class="del-btn" onclick="delImg(event,this)">✕</button></div>
+              <div class="pi-img-slot"><div class="slot-hint"><span>📷</span>해외 펀딩 페이지 캡처</div><input type="file" accept="image/*" onchange="loadImg(this)"><button class="del-btn" onclick="delImg(event,this)">✕</button></div>
+              <div class="pi-img-slot"><div class="slot-hint"><span>📷</span>플랫폼 매출 성과 화면</div><input type="file" accept="image/*" onchange="loadImg(this)"><button class="del-btn" onclick="delImg(event,this)">✕</button></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- P5: 자사몰 구축 -->
+    <div class="pi">
+      <div class="pi-hd" onclick="tog(this)">
+        <div class="pi-ic s">★</div>
+        <div><div class="pi-nm">자사몰 구축 및 네이버스토어 운영</div><div class="pi-kw">아임웹 리뉴얼 · 회원수 11배 · 키워드 상위 노출 · 시계 밴드 100개+ 판매</div></div>
+        <span class="pi-arr">▾</span>
+      </div>
+      <div class="pi-body">
+        <div class="pi-grid">
+          <div>
+            <div class="dl">문제 정의</div>
+            <div class="dt">
+              <ul>
+                <li>초기 예상(30~40대) vs 실제 구매 고객(45~60대) 차이 — UI/UX 미스매치</li>
+                <li>쿠폰 수동 발급·SNS 연동 부재·PC 중심 UI로 모바일 이탈 발생</li>
+                <li>시계 핵심 키워드 검색 상위 노출 전략 부재</li>
+              </ul>
+            </div>
+          </div>
+          <div>
+            <div class="dl">실행 내용</div>
+            <div class="dt">
+              <ul>
+                <li>아임웹 자사몰 리뉴얼 — 완제품 중심 큐레이션·모바일 최적화·14개 컬렉션 한 화면 구조</li>
+                <li>카카오·네이버·구글 소셜 로그인·알림톡 자동 발송·채널톡 도입</li>
+                <li>고객 등급 시스템·픽셀 설치로 행동 데이터 수집</li>
+                <li>네이버 핵심 키워드 분석, 상품명·상세페이지 반영 SEO 최적화</li>
+                <li>월별 시즌 기획전 운영, 밴드·디버클 등 연관 상품 판매 구조</li>
+              </ul>
+            </div>
+          </div>
+          <div>
+            <div class="dl">성과</div>
+            <div class="impact-box">
+              <div class="imp-row"><div class="imp-dot">✓</div>매출 10배 상승 &amp; <strong>회원가입 수 11배 증가</strong></div>
+              <div class="imp-row"><div class="imp-dot">✓</div>사이트 유지 비용 <strong>80% 이상 절감</strong>, 광고 효율 개선</div>
+              <div class="imp-row"><div class="imp-dot">✓</div>시계 핵심 키워드 <strong>검색 상위 노출</strong> 달성</div>
+              <div class="imp-row"><div class="imp-dot">✓</div>시계 밴드 연관 상품 <strong>100개 이상 판매</strong></div>
+            </div>
+          </div>
+          <div>
+            <div class="dl">사용 도구</div>
+            <div class="ptags"><span class="ptag">아임웹</span><span class="ptag">네이버 브랜드스토어</span><span class="ptag">SEO</span><span class="ptag">알림톡</span><span class="ptag">채널톡</span><span class="ptag">픽셀</span><span class="ptag">GA4</span></div>
+          </div>
+          <div class="pi-imgs">
+            <div class="pi-imgs-label">이미지</div>
+            <div class="pi-img-row">
+              <div class="pi-img-slot"><div class="slot-hint"><span>📷</span>자사몰 메인 화면 캡처</div><input type="file" accept="image/*" onchange="loadImg(this)"><button class="del-btn" onclick="delImg(event,this)">✕</button></div>
+              <div class="pi-img-slot"><div class="slot-hint"><span>📷</span>네이버 스토어 화면 캡처</div><input type="file" accept="image/*" onchange="loadImg(this)"><button class="del-btn" onclick="delImg(event,this)">✕</button></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /proj-list -->
+</div>
+</div>
+
+
+<!-- EXTRA PROJECTS -->
+<div id="extra" style="background:var(--bg);">
+<div class="wrap">
+  <div class="sec-hd reveal"><span class="sec-num">Extra</span><h2 class="sec-ttl">그 외 프로젝트</h2><div class="sec-line"></div></div>
+  <p class="sec-sub reveal">(주)가디우스 · 커스벤 · 브랜드 운영 전반에 걸쳐 수행한 프로젝트</p>
+  <div class="proj-list reveal">
+
+    <!-- E1: 고객 페르소나 -->
+    <div class="pi">
+      <div class="pi-hd" onclick="tog(this)">
+        <div class="pi-ic p">○</div>
+        <div><div class="pi-nm">고객 페르소나 분석</div><div class="pi-kw">1,300건 피드백 분석 · 4050 남성 페르소나 도출 · 채널 전략 재설계</div></div>
+        <span class="pi-arr">▾</span>
+      </div>
+      <div class="pi-body">
+        <div class="pi-grid">
+          <div>
+            <div class="dl">문제 정의</div>
+            <div class="dt"><ul>
+              <li>초기 타겟 가설(30~40대) vs 실제 매출 성과 괴리 — 예상 대비 낮은 성과</li>
+              <li>타겟 범위가 넓어 구매 포인트 불명확, 핵심 고객 재정의 필요</li>
+            </ul></div>
+          </div>
+          <div>
+            <div class="dl">실행 내용</div>
+            <div class="dt"><ul>
+              <li>와디즈 펀딩 참여자 데이터 수집, 1:1 전화 설문 진행</li>
+              <li>구글·페이스북 설문 합산 <strong>1,300건 이상 고객 피드백 분석</strong></li>
+              <li>구매 동기·라이프스타일·선호 가격대 기준 4050 남성 페르소나 2개 도출</li>
+              <li>가성비·자기 보상 소비 반영해 클래식·스포티 시계 상품군 확대</li>
+              <li>40~50대 남성 유입 채널(카카오메이커스·조선일보) 중심 전략 재설계</li>
+            </ul></div>
+          </div>
+          <div>
+            <div class="dl">성과</div>
+            <div class="impact-box">
+              <div class="imp-row"><div class="imp-dot">✓</div>새로운 제품 관심 높은 40대 + 자기 보상 소비 성향 50대로 핵심 타겟 명확화</div>
+              <div class="imp-row"><div class="imp-dot">✓</div>고객 데이터 기반 운영 이후 자사몰 월 평균 <strong>1,500만~2,000만 원 매출 구조</strong> 구축</div>
+            </div>
+          </div>
+          <div>
+            <div class="dl">사용 도구</div>
+            <div class="ptags"><span class="ptag">고객 설문</span><span class="ptag">VOC 분석</span><span class="ptag">페르소나</span><span class="ptag">채널 전략</span><span class="ptag">Excel</span></div>
+          </div>
+          <div class="pi-imgs">
+            <div class="pi-imgs-label">이미지</div>
+            <div class="pi-img-row">
+              <div class="pi-img-slot"><div class="slot-hint"><span>📷</span>페르소나 문서 / 설문 결과</div><input type="file" accept="image/*" onchange="loadImg(this)"><button class="del-btn" onclick="delImg(event,this)">✕</button></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- E2: 오프라인 쇼룸 -->
+    <div class="pi">
+      <div class="pi-hd" onclick="tog(this)">
+        <div class="pi-ic p">○</div>
+        <div><div class="pi-nm">오프라인 쇼룸 운영 및 공간 기획</div><div class="pi-kw">서초·안양 쇼룸 · 청량리 롯데백화점 · 성수 공간와디즈 · 동선 재설계 · 운영 매뉴얼</div></div>
+        <span class="pi-arr">▾</span>
+      </div>
+      <div class="pi-body">
+        <div class="pi-grid">
+          <div>
+            <div class="dl">문제 정의</div>
+            <div class="dt"><ul>
+              <li>단순 진열 중심 구조로 특정 구역에서 고객 이탈 발생</li>
+              <li>현장 직원 응대 방식 불일치로 결제 전환 지연</li>
+            </ul></div>
+          </div>
+          <div>
+            <div class="dl">실행 내용</div>
+            <div class="dt"><ul>
+              <li>고객 이동 흐름 분석 → 메인 진열대 위치·결제 동선 재배치</li>
+              <li>미사용 공간을 1:1 커스텀 체험 공간으로 전환</li>
+              <li>전 직원 대상 응대·결제 매뉴얼 제작 및 현장 교육</li>
+              <li>1:1 커스텀 예약제 운영으로 고객 체류 시간 증가</li>
+              <li>서초·안양 쇼룸, 청량리 롯데백화점, 성수 공간와디즈 입점 운영</li>
+            </ul></div>
+          </div>
+          <div>
+            <div class="dl">성과</div>
+            <div class="impact-box">
+              <div class="imp-row"><div class="imp-dot">✓</div>동선 조정 이후 고객 체류 시간 증가, 제품 노출 빈도 상승</div>
+              <div class="imp-row"><div class="imp-dot">✓</div>매장 결제 전환율 상승</div>
+              <div class="imp-row"><div class="imp-dot">✓</div>응대 매뉴얼 도입 후 반복 문의·고객 불만 감소</div>
+            </div>
+          </div>
+          <div>
+            <div class="dl">사용 도구</div>
+            <div class="ptags"><span class="ptag">VMD</span><span class="ptag">동선 설계</span><span class="ptag">운영 매뉴얼</span><span class="ptag">예약제</span><span class="ptag">고객 경험 설계</span></div>
+          </div>
+          <div class="pi-imgs">
+            <div class="pi-imgs-label">이미지</div>
+            <div class="pi-img-row">
+              <div class="pi-img-slot"><div class="slot-hint"><span>📷</span>쇼룸 내부 공간 사진</div><input type="file" accept="image/*" onchange="loadImg(this)"><button class="del-btn" onclick="delImg(event,this)">✕</button></div>
+              <div class="pi-img-slot"><div class="slot-hint"><span>📷</span>롯데백화점 / 팝업 입점 사진</div><input type="file" accept="image/*" onchange="loadImg(this)"><button class="del-btn" onclick="delImg(event,this)">✕</button></div>
+              <div class="pi-img-slot"><div class="slot-hint"><span>📷</span>제품 진열 / 체험 공간</div><input type="file" accept="image/*" onchange="loadImg(this)"><button class="del-btn" onclick="delImg(event,this)">✕</button></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- E3: VOC -->
+    <div class="pi">
+      <div class="pi-hd" onclick="tog(this)">
+        <div class="pi-ic p">○</div>
+        <div><div class="pi-nm">VOC 분석 및 고객 행동 여정 개선</div><div class="pi-kw">고객 여정 분석 · FAQ 시스템 · 언박싱 경험 개선 · A/S 접수 시스템 구축</div></div>
+        <span class="pi-arr">▾</span>
+      </div>
+      <div class="pi-body">
+        <div class="pi-grid">
+          <div>
+            <div class="dl">문제 정의</div>
+            <div class="dt"><ul>
+              <li>배송·사용법 관련 단순 문의 반복 발생 → 상담 대응에 많은 시간 소요</li>
+              <li>고가 제품 특성상 배송 안정성·A/S 관련 구매 후 고객 불안 존재</li>
+              <li>택배 패키징 품질 낮음, 제품 설명서 부재로 사용 문의 발생</li>
+            </ul></div>
+          </div>
+          <div>
+            <div class="dl">실행 내용</div>
+            <div class="dt"><ul>
+              <li>유입→구매→수령→재구매 전체 고객 여정 정리, 문의 발생 구간 파악</li>
+              <li>반복 문의 전수 정리 → 이미지·표 활용 FAQ 페이지 제작 및 상담 자동화</li>
+              <li>자체 제작 택배 박스·브랜드 브로슈어·무브먼트별 사용설명서 제작 동봉</li>
+              <li>사이트 내 A/S 접수 페이지 신설, 알림톡으로 진행 상황 안내</li>
+            </ul></div>
+          </div>
+          <div>
+            <div class="dl">성과</div>
+            <div class="impact-box">
+              <div class="imp-row"><div class="imp-dot">✓</div>단순 상담 업무 감소 → 상품 기획 업무 집중 가능</div>
+              <div class="imp-row"><div class="imp-dot">✓</div>구매 이후 서비스 관련 긍정 피드백 증가, 재방문 고객 확인</div>
+              <div class="imp-row"><div class="imp-dot">✓</div>언박싱 경험 개선으로 브랜드 신뢰도·고객 충성도 향상</div>
+            </div>
+          </div>
+          <div>
+            <div class="dl">사용 도구</div>
+            <div class="ptags"><span class="ptag">Customer Journey Map</span><span class="ptag">FAQ 시스템</span><span class="ptag">알림톡</span><span class="ptag">A/S 시스템</span></div>
+          </div>
+          <div class="pi-imgs">
+            <div class="pi-imgs-label">이미지</div>
+            <div class="pi-img-row">
+              <div class="pi-img-slot"><div class="slot-hint"><span>📷</span>패키지 / 언박싱 사진</div><input type="file" accept="image/*" onchange="loadImg(this)"><button class="del-btn" onclick="delImg(event,this)">✕</button></div>
+              <div class="pi-img-slot"><div class="slot-hint"><span>📷</span>브로슈어 / 사용설명서</div><input type="file" accept="image/*" onchange="loadImg(this)"><button class="del-btn" onclick="delImg(event,this)">✕</button></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- E4: CRM -->
+    <div class="pi">
+      <div class="pi-hd" onclick="tog(this)">
+        <div class="pi-ic p">○</div>
+        <div><div class="pi-nm">고객 세그먼테이션 및 CRM 마케팅</div><div class="pi-kw">고객 등급 설계 · 온사이트/오프사이트 CRM · 자사몰 중심 판매 구조 전환</div></div>
+        <span class="pi-arr">▾</span>
+      </div>
+      <div class="pi-body">
+        <div class="pi-grid">
+          <div>
+            <div class="dl">문제 정의</div>
+            <div class="dt"><ul>
+              <li>사이트 구축 초기 — 방문자 클릭 경로·체류 시간 등 행동 데이터 거의 없음</li>
+              <li>구매 데이터가 와디즈·외부 채널에 분산 → 자사몰 중심 CRM 운영 어려움</li>
+              <li>내부 데이터만으로는 리마케팅 대상 고객 식별 불가</li>
+            </ul></div>
+          </div>
+          <div>
+            <div class="dl">실행 내용</div>
+            <div class="dt"><ul>
+              <li>와디즈·외부 플랫폼 구매자 데이터를 초기 마케팅 타겟으로 설정</li>
+              <li>카카오 알림톡·타겟 SMS·SNS 맞춤 광고로 자사몰 방문 유도</li>
+              <li>구매 금액·횟수·최근 구매 시점 기반 Excel 고객 등급 산출 로직 설계</li>
+              <li>VIP/일반 고객 구분, 등급별 혜택·메시지 전략 차별화</li>
+              <li>온사이트 CRM(채널톡·알림톡·앱푸시) + 오프사이트 CRM(LMS·알림톡)</li>
+              <li>장바구니 이탈 방지 팝업·고객 등급별 혜택 페이지 운영</li>
+            </ul></div>
+          </div>
+          <div>
+            <div class="dl">성과</div>
+            <div class="impact-box">
+              <div class="imp-row"><div class="imp-dot">✓</div>외부 플랫폼 구매자를 자사몰로 유입 → <strong>자사몰 기반 판매 구조 강화</strong></div>
+              <div class="imp-row"><div class="imp-dot">✓</div>초기 외부 유입 → 데이터 축적 후 사이트 전환 개선 중심으로 운영 고도화</div>
+              <div class="imp-row"><div class="imp-dot">✓</div>구매 데이터 기반 고객 관리로 재방문·재구매 증가</div>
+            </div>
+          </div>
+          <div>
+            <div class="dl">사용 도구</div>
+            <div class="ptags"><span class="ptag">고객 등급 설계</span><span class="ptag">RFM 분석</span><span class="ptag">카카오 알림톡</span><span class="ptag">채널톡</span><span class="ptag">SMS</span><span class="ptag">Excel</span></div>
+          </div>
+          <div class="pi-imgs">
+            <div class="pi-imgs-label">이미지</div>
+            <div class="pi-img-row">
+              <div class="pi-img-slot"><div class="slot-hint"><span>📷</span>고객 등급 설계 문서</div><input type="file" accept="image/*" onchange="loadImg(this)"><button class="del-btn" onclick="delImg(event,this)">✕</button></div>
+              <div class="pi-img-slot"><div class="slot-hint"><span>📷</span>알림톡 / CRM 발송 화면</div><input type="file" accept="image/*" onchange="loadImg(this)"><button class="del-btn" onclick="delImg(event,this)">✕</button></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /extra proj-list -->
+</div>
+</div>
+
+<!-- STUDY -->
+<div class="wrap" id="study">
+  <div class="sec-hd reveal"><span class="sec-num">Study</span><h2 class="sec-ttl">데이터 역량 학습</h2><div class="sec-line"></div></div>
+  <p class="sec-sub reveal">커널 아카데미 · 2025.11 — 2026.03 · SQL, Tableau, Python</p>
+  <div class="st-list">
+
+    <div class="st-card reveal">
+      <div class="st-ic">SQL</div>
+      <div>
+        <div class="st-ttl">SQL Project — Instacart CRM 데이터 분석</div>
+        <div class="st-pd">2026.03 완료 · 커널 아카데미 &nbsp;|&nbsp; 블로그 아티클 작성 완료</div>
+        <div class="st-desc">Instacart Online Grocery Dataset(약 3,200만 주문 / 20만 고객)을 활용해 고객 구매 행동을 분석하고, CRM 전략 수립을 위한 고객 등급 분류 시스템을 설계했습니다. MD 업무에서 직접 운영해온 고객 세그먼테이션 경험을 데이터 분석으로 연결했습니다.</div>
+        <div class="st-rs">
+          <div class="st-r"><div class="st-d"></div>주문 주기·재구매 비율·시간대·요일별 구매 패턴 분석</div>
+          <div class="st-r"><div class="st-d"></div>구매 횟수·재구매 비율 기반 VIP / Royal / Gold / New 4등급 고객 분류 설계</div>
+          <div class="st-r"><div class="st-d"></div>고객 등급별 맞춤 CRM 메시지 전략 및 프로모션 기획 방향 도출</div>
+          <div class="st-r"><div class="st-d"></div>분석 인사이트를 블로그 아티클로 정리·발행</div>
+        </div>
+        <div class="ptags" style="margin-top:12px;"><span class="ptag">SQL</span><span class="ptag">Python</span><span class="ptag">고객 세그먼테이션</span><span class="ptag">CRM 전략</span><span class="ptag">대용량 데이터</span></div>
+        <div class="st-imgs">
+          <div class="st-imgs-label">이미지</div>
+          <div class="st-img-row">
+            <div class="st-img-slot"><div class="slot-hint"><span>📷</span>SQL 쿼리 / 분석 화면</div><input type="file" accept="image/*" onchange="loadImg(this)"><button class="del-btn" onclick="delImg(event,this)">✕</button></div>
+            <div class="st-img-slot"><div class="slot-hint"><span>📷</span>고객 등급 분류 결과</div><input type="file" accept="image/*" onchange="loadImg(this)"><button class="del-btn" onclick="delImg(event,this)">✕</button></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="st-card reveal">
+      <div class="st-ic">📊</div>
+      <div>
+        <div class="st-ttl">Tableau Project — 신혼부부 주거 추천 분석</div>
+        <div class="st-pd">2026.03 완료 · 커널 아카데미 &nbsp;|&nbsp; <a href="https://public.tableau.com/shared/SHWNS4YHG?:display_count=n&:origin=viz_share_link" target="_blank" style="color:var(--accent);text-decoration:none;font-weight:600;">Tableau Public 게시 ↗</a></div>
+        <div class="st-desc">서울 아파트 실거래 데이터를 기반으로 예산 6억 이하 / 전용면적 85㎡ 이하 조건의 신혼부부에게 적합한 아파트 단지를 분석했습니다. 평단가·연식·거래 건수·강남 접근성 지표를 점수화해 신혼부부 적합 점수 모델을 설계하고 4페이지 인터랙티브 대시보드로 구현했습니다.</div>
+        <div class="st-rs">
+          <div class="st-r"><div class="st-d"></div>평단가·연식·거래 건수·강남 접근성 지표 점수화 → 신혼부부 적합 점수 산출 모델 설계</div>
+          <div class="st-r"><div class="st-d"></div>시군구별 추천 단지 / 적합 점수 랭킹 / 동별 거래량 / 연식·층수 패턴 시각화</div>
+          <div class="st-r"><div class="st-d"></div>조건 선택 시 추천 단지 확인 가능한 인터랙티브 필터 구조 설계</div>
+          <div class="st-r"><div class="st-d"></div>Python·SQL 전처리 후 Tableau Public 게시</div>
+        </div>
+        <div class="ptags" style="margin-top:12px;"><span class="ptag">Tableau</span><span class="ptag">Python</span><span class="ptag">SQL</span><span class="ptag">인터랙티브 대시보드</span><span class="ptag">점수 모델 설계</span></div>
+        <div class="st-imgs">
+          <div class="st-imgs-label">이미지</div>
+          <div class="st-img-row">
+            <div class="st-img-slot"><div class="slot-hint"><span>📷</span>Tableau 대시보드 캡처</div><input type="file" accept="image/*" onchange="loadImg(this)"><button class="del-btn" onclick="delImg(event,this)">✕</button></div>
+            <div class="st-img-slot"><div class="slot-hint"><span>📷</span>추천 단지 랭킹 화면</div><input type="file" accept="image/*" onchange="loadImg(this)"><button class="del-btn" onclick="delImg(event,this)">✕</button></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="st-card reveal">
+      <div class="st-ic">Py</div>
+      <div>
+        <div class="st-ttl">Python Project — 중국 해외직구 시장 데이터 분석</div>
+        <div class="st-pd">2026.03 완료 · 커널 아카데미</div>
+        <div class="st-desc">알리익스프레스·테무 플랫폼 상품 데이터를 기반으로 국내 소비자의 해외직구 구매 패턴을 분석했습니다. 가격 경쟁력·카테고리 구조·소비자 관심도·상품 만족도 지표를 중심으로 해외직구 시장의 상품 구조를 파악했습니다.</div>
+        <div class="st-rs">
+          <div class="st-r"><div class="st-d"></div>상품 가격(국내 대비 경쟁력)·카테고리·리뷰 수·평점 기준 데이터 정제 및 분석</div>
+          <div class="st-r"><div class="st-d"></div>가격 경쟁력이 가장 큰 구매 요인 — 생활용품·전자 액세서리 카테고리 높은 판매 비중 확인</div>
+          <div class="st-r"><div class="st-d"></div>리뷰 수가 많은 상품일수록 구매 전환율 높아지는 패턴 도출</div>
+          <div class="st-r"><div class="st-d"></div>Pandas 기반 데이터 전처리·집계·시각화</div>
+        </div>
+        <div class="ptags" style="margin-top:12px;"><span class="ptag">Python</span><span class="ptag">Pandas</span><span class="ptag">시장 분석</span><span class="ptag">데이터 시각화</span><span class="ptag">알리익스프레스</span><span class="ptag">테무</span></div>
+        <div class="st-imgs">
+          <div class="st-imgs-label">이미지</div>
+          <div class="st-img-row">
+            <div class="st-img-slot"><div class="slot-hint"><span>📷</span>Python 분석 코드 화면</div><input type="file" accept="image/*" onchange="loadImg(this)"><button class="del-btn" onclick="delImg(event,this)">✕</button></div>
+            <div class="st-img-slot"><div class="slot-hint"><span>📷</span>카테고리 / 가격 분석 차트</div><input type="file" accept="image/*" onchange="loadImg(this)"><button class="del-btn" onclick="delImg(event,this)">✕</button></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<div class="ft-wrap">
+  <footer>
+    <span class="ft-nm">경예은 · Kyung Ye-eun</span>
+    <span class="ft-sb">MD Portfolio 2026 · (주)가디우스 커스벤 Lead MD &amp; Brand Manager</span>
+  </footer>
+</div>
+
+<script>
+function tog(hd){
+  const item=hd.parentElement;
+  const was=item.classList.contains('open');
+  document.querySelectorAll('.pi.open').forEach(i=>i.classList.remove('open'));
+  if(!was)item.classList.add('open');
+}
+
+// image upload
+// assign stable keys to every slot on load
+function initSlots(){
+  document.querySelectorAll('.pi-img-slot, .st-img-slot').forEach((slot,i)=>{
+    slot.dataset.key = 'img_slot_' + i;
+  });
+}
+
+function loadImg(input){
+  const slot = input.parentElement;
+  const file = input.files[0];
+  if(!file) return;
+  const reader = new FileReader();
+  reader.onload = e => {
+    setSlotImg(slot, e.target.result);
+    try { localStorage.setItem(slot.dataset.key, e.target.result); } catch(err){}
+  };
+  reader.readAsDataURL(file);
+}
+
+function setSlotImg(slot, src){
+  let img = slot.querySelector('img');
+  if(!img){ img = document.createElement('img'); slot.appendChild(img); }
+  img.src = src;
+  slot.classList.add('has-img');
+}
+
+function delImg(e, btn){
+  e.stopPropagation();
+  const slot = btn.parentElement;
+  const img = slot.querySelector('img');
+  if(img) img.remove();
+  slot.classList.remove('has-img');
+  const input = slot.querySelector('input');
+  if(input) input.value = '';
+  try { localStorage.removeItem(slot.dataset.key); } catch(err){}
+}
+
+// restore saved images on page load
+function restoreImgs(){
+  document.querySelectorAll('.pi-img-slot, .st-img-slot').forEach(slot => {
+    try {
+      const saved = localStorage.getItem(slot.dataset.key);
+      if(saved) setSlotImg(slot, saved);
+    } catch(err){}
+  });
+}
+
+window.addEventListener('load', ()=>{
+  initSlots();
+  restoreImgs();
+});
+
+// scroll reveal
+const ro=new IntersectionObserver((entries)=>{
+  entries.forEach((e,i)=>{
+    if(e.isIntersecting){
+      setTimeout(()=>e.target.classList.add('visible'),i*50);
+      ro.unobserve(e.target);
+    }
+  });
+},{threshold:0.07});
+document.querySelectorAll('.reveal').forEach(el=>ro.observe(el));
+
+// skill bars on load
+window.addEventListener('load',()=>{
+  setTimeout(()=>{
+    document.querySelectorAll('.bar-fill').forEach(bar=>{
+      bar.classList.add('go');
+      bar.style.transform=`scaleX(${bar.dataset.w})`;
+    });
+  },650);
+});
+</script>
+</body>
+</html>

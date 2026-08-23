@@ -225,9 +225,13 @@ nav a:hover{color:var(--ink);}
 }
 .pi-img-slot.has-img .slot-hint{display:none;}
 .pi-img-slot .del-btn{
-  display:none !important;
+  position:absolute;top:5px;right:5px;z-index:10;
+  width:20px;height:20px;border-radius:50%;
+  background:rgba(0,0,0,.55);border:none;cursor:pointer;
+  color:#fff;font-size:11px;display:none;
+  align-items:center;justify-content:center;
 }
-.pi-img-slot.has-img .del-btn{display:none !important;}
+.pi-img-slot.has-img .del-btn{display:flex;}
 
 /* STUDY image */
 .st-imgs{margin-top:14px;}
@@ -245,8 +249,8 @@ nav a:hover{color:var(--ink);}
 .st-img-slot .slot-hint span{display:block;font-size:18px;margin-bottom:4px;}
 .st-img-slot input[type=file]{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%;}
 .st-img-slot.has-img .slot-hint{display:none;}
-.st-img-slot .del-btn{display:none !important;}
-.st-img-slot.has-img .del-btn{display:none !important;}
+.st-img-slot .del-btn{position:absolute;top:5px;right:5px;z-index:10;width:20px;height:20px;border-radius:50%;background:rgba(0,0,0,.55);border:none;cursor:pointer;color:#fff;font-size:11px;display:none;align-items:center;justify-content:center;}
+.st-img-slot.has-img .del-btn{display:flex;}
 
 /* ── FOOTER ── */
 .ft-wrap{border-top:1px solid var(--border);background:var(--white);}
@@ -990,37 +994,8 @@ function tog(hd){
   if(!was)item.classList.add('open');
 }
 
-// ── IndexedDB 헬퍼 (localStorage 대체, 용량 제한 없음) ──
-const DB_NAME = 'portfolioDB';
-const STORE = 'images';
-function openDB(){
-  return new Promise((resolve, reject) => {
-    const req = indexedDB.open(DB_NAME, 1);
-    req.onupgradeneeded = () => req.result.createObjectStore(STORE);
-    req.onsuccess = () => resolve(req.result);
-    req.onerror = () => reject(req.error);
-  });
-}
-async function dbSet(key, val){
-  const db = await openDB();
-  return new Promise((resolve, reject) => {
-    const tx = db.transaction(STORE, 'readwrite');
-    tx.objectStore(STORE).put(val, key);
-    tx.oncomplete = () => resolve();
-    tx.onerror = () => reject(tx.error);
-  });
-}
-async function dbGet(key){
-  const db = await openDB();
-  return new Promise((resolve, reject) => {
-    const tx = db.transaction(STORE, 'readonly');
-    const req = tx.objectStore(STORE).get(key);
-    req.onsuccess = () => resolve(req.result);
-    req.onerror = () => reject(req.error);
-  });
-}
-
 // image upload
+// assign stable keys to every slot on load
 function initSlots(){
   document.querySelectorAll('.pi-img-slot, .st-img-slot').forEach((slot,i)=>{
     slot.dataset.key = 'img_slot_' + i;
@@ -1034,7 +1009,7 @@ function loadImg(input){
   const reader = new FileReader();
   reader.onload = e => {
     setSlotImg(slot, e.target.result);
-    dbSet(slot.dataset.key, e.target.result).catch(()=>{});
+    try { localStorage.setItem(slot.dataset.key, e.target.result); } catch(err){}
   };
   reader.readAsDataURL(file);
 }
@@ -1044,10 +1019,7 @@ function setSlotImg(slot, src){
   if(!img){ img = document.createElement('img'); slot.appendChild(img); }
   img.src = src;
   slot.classList.add('has-img');
-  // 업로드 input 숨기기 (재업로드 방지)
-  const input = slot.querySelector('input');
-  if(input) input.style.display = 'none';
-  // zoom 버튼
+  // zoom 버튼 없으면 추가
   if(!slot.querySelector('.zoom-btn')){
     const zb = document.createElement('button');
     zb.className = 'zoom-btn';
@@ -1058,19 +1030,47 @@ function setSlotImg(slot, src){
   }
 }
 
-// 삭제 기능 비활성화 — 함수는 남겨두되 아무 동작 안 함
 function delImg(e, btn){
   e.stopPropagation();
-  // 삭제 차단됨
+  const slot = btn.parentElement;
+  const img = slot.querySelector('img');
+  if(img) img.remove();
+  slot.classList.remove('has-img');
+  const input = slot.querySelector('input');
+  if(input) input.value = '';
+  try { localStorage.removeItem(slot.dataset.key); } catch(err){}
 }
 
-// restore saved images on page load (IndexedDB)
-async function restoreImgs(){
-  document.querySelectorAll('.pi-img-slot, .st-img-slot').forEach(async slot => {
+// default images baked into the site so every visitor sees them
+// (previously images only lived in the uploader's own browser localStorage)
+const defaultImages = {
+  "img_slot_0": "images/img_slot_0.png",
+  "img_slot_1": "images/img_slot_1.png",
+  "img_slot_2": "images/img_slot_2.png",
+  "img_slot_3": "images/img_slot_3.png",
+  "img_slot_4": "images/img_slot_4.jpg",
+  "img_slot_5": "images/img_slot_5.jpg",
+  "img_slot_6": "images/img_slot_6.jpg",
+  "img_slot_10": "images/img_slot_10.jpg",
+  "img_slot_11": "images/img_slot_11.jpg",
+  "img_slot_12": "images/img_slot_12.jpg",
+  "img_slot_16": "images/img_slot_16.jpg",
+  "img_slot_17": "images/img_slot_17.jpg",
+  "img_slot_18": "images/img_slot_18.jpg",
+  "img_slot_19": "images/img_slot_19.jpg",
+  "img_slot_20": "images/img_slot_20.png",
+  "img_slot_21": "images/img_slot_21.png"
+};
+
+// restore saved images on page load
+function restoreImgs(){
+  document.querySelectorAll('.pi-img-slot, .st-img-slot').forEach(slot => {
     try {
-      const saved = await dbGet(slot.dataset.key);
+      const saved = localStorage.getItem(slot.dataset.key) || defaultImages[slot.dataset.key];
       if(saved) setSlotImg(slot, saved);
-    } catch(err){}
+    } catch(err){
+      if(defaultImages[slot.dataset.key]) setSlotImg(slot, defaultImages[slot.dataset.key]);
+    }
   });
 }
 
